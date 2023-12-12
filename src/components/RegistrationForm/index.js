@@ -18,14 +18,20 @@ class RegistrationForm extends Component {
 
   onSubmission = event => {
     event.preventDefault()
-    const {firstName, lastName} = this.state
+    const {firstName, lastName, firstError, lastError} = this.state
     if (firstName !== '' && lastName !== '') {
       this.setState({
         firstName: '',
         lastName: '',
+        firstError: '',
+        lastError: '',
         isSuccess: true,
       })
-    } else {
+    } else if (firstName === '') {
+      this.setState({firstError: 'Required'})
+    } else if (lastError === '') {
+      this.setState({lastError: 'Required'})
+    } else if (firstName === '' && lastName === '') {
       this.setState({
         firstError: 'Required',
         lastError: 'Required',
@@ -79,7 +85,6 @@ class RegistrationForm extends Component {
           FIRST NAME
         </label>
         <input
-          value={firstName}
           type="text"
           onBlur={this.onFirstChange}
           placeholder="First Name"
@@ -92,7 +97,6 @@ class RegistrationForm extends Component {
           LAST NAME
         </label>
         <input
-          value={lastName}
           type="text"
           onBlur={this.onSecondChange}
           placeholder="Last Name"
@@ -101,7 +105,7 @@ class RegistrationForm extends Component {
         />
         <p className="erronious">{lastError}</p>
 
-        <button className="btn" type="button">
+        <button className="btn" type="submit">
           Submit
         </button>
       </form>
